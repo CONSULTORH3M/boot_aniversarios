@@ -263,8 +263,8 @@ class WhatsAppSenderApp:
             conn = mysql.connector.connect(
                 host='localhost',
                 user='root',
-                password='mysql147',
-                database='sistema'
+                password='xxxxxxx',
+                database='xxxxxxx'
             )
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT contato, nome, telefone1, dtNasc, rgIm, email FROM pessoas")

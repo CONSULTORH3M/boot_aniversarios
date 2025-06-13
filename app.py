@@ -5,7 +5,7 @@ mensagens = {
         ", {nome}, da empresa {empresa}, "
         "*Parabéns pelo seu dia!* "
         "Caro cliente, neste dia especial em que você comemora mais um ano da sua vida, gostaríamos de lhe prestar esta pequena, "
-        "mas sentida, homenagem desejando-lhe para o efeito um feliz aniversário! Esperamos que passe um dia cheio de alegria, " 
+        "mas sincera, *homenagem*, desejando-lhe para o efeito, um *feliz aniversário*. Esperamos que passe um dia cheio de alegria, " 
         "surpresas boas, que possa desfrutar do seu dia na companhia de amigos e familiares, e que conte muitos anos. "
         "Esperamos também poder continuar a contar com a sua preferência, pois sem você não seríamos nada do que somos. "
         "Parabéns, caro cliente, muitas felicidades, hoje e sempre! Muito amor, muita paz e muita saúde para a sua vida que desejamos longa e feliz!. "
@@ -49,10 +49,10 @@ mensagens = {
     "CLIENTES INADINPLENTES": (
         ", {nome}, da empresa {empresa}, "
         "Como está o uso do *Aparelho*, tudo certo? Algo que deseja mencionar? "
-        "Nosso produto atende a sua nescessidade com oque é mais moderno em relação a tecnologia, E Caso precise de ajuda, na utilização do mesmo, basta falar com o nosso Whats no *(55)3333-4650*. "
-        "Mas Gostaríamos de salientar aqui, a importância de manter sei pagamento em dia. "
-        "Evite Transtorno no retorno para periódico,  pois o não pagamento em DIA, ocasiona o *bloqueio* do seu atendimento periódico. " 
-        "Não deixe para depois, solicite a 2 via do boleto aqui nesse Whats, caso não tenha recebido ainda."
+        "Nosso produto atende a sua nescessidade com oque é de mais moderno, em relação a tecnologia, E Caso precise de ajuda, na utilização do mesmo, basta falar com o nosso Whats no *(55)3333-4650*. "
+        "Mas Gostaríamos de salientar aqui, a importância de manter seu pagamento em dia. "
+        "Evite Transtorno no retorno para o periódico,  pois o não pagamento em DIA, ocasiona o *Bloqueio* do seu atendimento presencial. " 
+        "Não deixe para depois, solicite a *2 via do boleto* aqui nesse Whats, caso não tenha recebido ainda."
     ),
     
 }
@@ -82,7 +82,7 @@ class WhatsAppSenderApp:
         self.root.iconphoto(False, icon)
 
         # CABEÇALHO APLICATIVO
-        self.root.title("APLICATIVO Aniversários Versao_Audiplus")
+        self.root.title("APLICATIVO Aniversários v_Audiplus")
         self.root.geometry("880x685+100+5")
 
         style = ttk.Style()
@@ -102,7 +102,7 @@ class WhatsAppSenderApp:
 
         ttk.Label(
             frame_top,
-            text="Disparo Automático Via Whatsaapp a cada 2 Minutos:",
+            text="Disparo Automático Via WhatsApp 'Businsess' a cada 2 MINUTOS!",
             font=("TkDefaultFont", 10, "bold")
         ).pack(side='left', padx=(5, 2))
         ttk.Label(
@@ -138,7 +138,7 @@ class WhatsAppSenderApp:
         DIAS = [f"{i:02d}" for i in range(1, 32)]  # Dias de "01" a "31"
 
 # Filtro de Mês
-        self.label_mes = ttk.Label(root, text="Mês do ANIVERSÁRIO:")
+        self.label_mes = ttk.Label(root, text="MÊS do ANIVERSÁRIO:")
         self.label_mes.pack()
 
         self.combo_mes = ttk.Combobox(root, values=[f"{num} - {nome}" for num, nome in MESES])
@@ -146,7 +146,7 @@ class WhatsAppSenderApp:
         self.combo_mes.set("Selecione") 
 
 # Filtro de Dia
-        self.label_dia = ttk.Label(root, text="Dia do ANIVERSÁRIO:")
+        self.label_dia = ttk.Label(root, text="DIA do ANIVERSÁRIO:")
         self.label_dia.pack()
 
         self.combo_dia = ttk.Combobox(root, values=["Todos os DIAS"] + DIAS)
@@ -163,7 +163,7 @@ class WhatsAppSenderApp:
 
         tk.Label(
             frame_edit,
-            text="Modelo da Mensagem a ser Enviada: PODE EDITAR ANTES DE CARREGAR OS CONTATOS",
+            text="Modelo da Mensagem a ser Enviada: PODE EDITAR ANTES DE CARREGAR OS CLIENTES",
             font=("Arial", 12, "bold"),
             anchor='w'
         ).pack(fill='x', padx=5, pady=(0, 5))
@@ -180,7 +180,7 @@ class WhatsAppSenderApp:
             show='headings'
         )
         self.tree.heading('Telefone', text='Telefones')
-        self.tree.heading('Mensagem', text='Mensagens a serem Disparadas')
+        self.tree.heading('Mensagem', text='Mensagens Prontas para Serem Disparadas')
         self.tree.column('Telefone', width=85)
         self.tree.column('Mensagem', width=1200)
         self.tree.pack(fill='both', expand=True)
@@ -230,7 +230,7 @@ class WhatsAppSenderApp:
 
         tk.Button(
             frame_actions,
-            text="DISPARAR Disparar",
+            text="INICIAR Disparo",
             command=self.iniciar_envio_thread,
             bg="#28a745",
             fg="white"
@@ -263,8 +263,8 @@ class WhatsAppSenderApp:
             conn = mysql.connector.connect(
                 host='localhost',
                 user='root',
-                password='xxxxxxx',
-                database='xxxxxxx'
+                password='xxxxxxxx',
+                database='xxxxxxxx'
             )
             cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT contato, nome, telefone1, dtNasc, rgIm, email FROM pessoas")
@@ -494,5 +494,9 @@ class WhatsAppSenderApp:
 
 if __name__ == "__main__":
     root = tk.Tk()
+    root.withdraw()  # Oculta a janela principal temporariamente
+
     app = WhatsAppSenderApp(root)
+
+    root.deiconify()  # Exibe a janela depois que tudo estiver pronto
     root.mainloop()

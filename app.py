@@ -1,31 +1,31 @@
 # APLICATIVO QUE SE CONECTA NO BANCO DE DADOS DO EVOLUTI
 # TIPOS DE MENSAGENS E OPÇOES DE MARKTING PARA SER DISPARADO PARA OS CLIENTES OU PROSPECTS POR DATA NASCIMENTO
 mensagens = {
-    "CLIENTE de ANIVERSÁRIO - MODELO 1": (
+    "CLIENTE de ANIVERSÁRIO - MODELO SISTEMA": (
         ", {nome}, da empresa {empresa}, "
         "*Parabéns pelo seu dia!* "
         "Caro cliente, neste dia especial em que você comemora mais um ano da sua vida, gostaríamos de lhe prestar esta pequena, "
-        "mas sincera, *homenagem*, desejando-lhe para o efeito, um *feliz aniversário*. Esperamos que passe um dia cheio de alegria, " 
+        "mas sincera, *Homenagem*, desejando-lhe para o efeito, um *Feliz Aniversário*. Esperamos que passe um dia cheio de alegria, " 
         "surpresas boas, que possa desfrutar do seu dia na companhia de amigos e familiares, e que conte muitos anos. "
         "Esperamos também poder continuar a contar com a sua preferência, pois sem você não seríamos nada do que somos. "
         "Parabéns, caro cliente, muitas felicidades, hoje e sempre! Muito amor, muita paz e muita saúde para a sua vida que desejamos longa e feliz!. "
-        "Caso não queira mais receber essa forma de contato, envie *SAIR*."
+        "Caso não queira mais receber esse tipo de contato, envie *SAIR*."
     ),
-    "CLIENTE de ANIVERSÁRIO - MODELO 2": (
+    "CLIENTE de ANIVERSÁRIO - MODELO AUDIPLUS": (
         ", {nome}, da empresa {empresa}, "
         "Que este dia seja muito feliz e maravilho para você, no dia mais importante de sua Vida! "
-        "Desejamos um feliz Aniversário, com muita disposição e principalmente ouvindo toda a festa, "
+        "Desejamos um *Feliz Aniversário*, com muita disposição e principalmente *Escutando* toda a festa, "
         "E também se precisar de algo, basta nos solicitar a nossa ajuda, aqui nesse Whats. "
-        "Caso não queira mais receber essa forma de contato, envie *SAIR*."
+        "Caso não queira mais receber esse tipo de contato, envie *SAIR*."
     ),
-    "PROSPECTS BUSCANDO DISPERTAR INTERESSE": (
+    "PROSPECTS - BUSCANDO NOVAS VENDAS": (
         ", {nome}, da empresa {empresa}, "
         "Nós da *AUDIPLUS* trabalhamos com *Aparelhos Modernos e preços Imbátiveis*. "
         "Montamos o valor baseada no equipamento mais adequado para sua situação. "
         "Valores que cabem no seu bolso. Peça mais informações conosco. "
-        "Se não quiser mais receber informações sobre nossos serviços, envie *SAIR*."
+        "Se não quiser mais receber informações sobre nossos produtos, envie *SAIR*."
     ),
-    "PROSPECT QUE FOI ATÉ ORÇADO, EM NEGOCIAÇÃO": (
+    "PROSPECT QUE FOI ORÇADO - EM NEGOCIAÇÃO": (
         ", {nome}, da empresa {empresa}, "
         "Nós da *AUDIPLUS* trabalhamos com um *APARELHOS AUDITIVOS*. "
         "E como já tinhamos conversado anteriormente, chegamos a falar um pouco sobre o eles, e até foi orçado, " 
@@ -39,14 +39,14 @@ mensagens = {
         "Entre em contato conosco, para mais informações."
         "Caso não queira mais receber esse tipo de contato, envie *SAIR*."
     ),
-    "CLIENTES QUE USAM MUITO POUCO": (
+    "CLIENTES QUE QUASE NÃO UTILIZAM": (
         ", {nome}, da empresa {empresa}, "
         "Como está o uso do *Aparelho*? "
-        "Sabemos que utiliza somente em algumas ocasiões. "
+        "Sabemos que utiliza somente em algumas ocasiões. Gostaria de informar a importância de manter um uso regular do mesmo, para evitar desregulagens. "
         "Mas estamos prontos para ajudar, caso precisar de algo. Basta falar com o nosso suport Whats no *(55)3333-4650*. "
         "Se não quiser mais receber esse tipo de contato, envie *SAIR*."
     ),
-    "CLIENTES INADINPLENTES": (
+    "INADINPLENTES": (
         ", {nome}, da empresa {empresa}, "
         "Como está o uso do *Aparelho*, tudo certo? Algo que deseja mencionar? "
         "Nosso produto atende a sua nescessidade com oque é de mais moderno, em relação a tecnologia, E Caso precise de ajuda, na utilização do mesmo, basta falar com o nosso Whats no *(55)3333-4650*. "
@@ -56,7 +56,7 @@ mensagens = {
     ),
     
 }
-# IMPORTANDOS BIBLIOTECAS UTILIZADAS
+## IMPORTANDOS BIBLIOTECAS UTILIZADAS
 import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 import pandas as pd
@@ -82,47 +82,60 @@ class WhatsAppSenderApp:
         self.root.iconphoto(False, icon)
 
         # CABEÇALHO APLICATIVO
-        self.root.title("APLICATIVO Aniversários v_Audiplus")
-        self.root.geometry("880x685+100+5")
+        self.root.title("APLICATIVO Aniversários V_Audiplus")
+        self.root.geometry("870x735+100+5")
 
+        # TAMANHOS E FONTES
         style = ttk.Style()
         style.configure("Treeview", font=("Helvetica", 8, "bold"))
         style.configure("Treeview.Heading", font=("Helvetica", 10, "bold"))
 
+        # NAO SEI PARA QUE SERVE
         self.enviando = False
         self.envio_ativo = threading.Event()
 
+        # AONDE VEM AS MENSAGENS DE QUANTAS MENSAGENS FALTA ENVIAR
+        self.frame_total = tk.Frame(self.root)
+        self.frame_total.pack()
+
+        # NAO SEI PARA QUE SERVE
         self.df = None
         self.filtered_df = None
 
+        # ESPAÇO ENTRE AS GRIDS
         frame_top = ttk.Frame(root, padding=10)
         frame_top.pack(fill='x')
 
+        # SE QUISER APARECER UM BOTAO para CLICLAR para CONECTAR AO BANCO DADOS
         #ttk.Button(frame_top, text="Conectar Banco", command=self.carregar_dados_do_mysql).pack(side='left')
 
+        # MENSASGENS DE INFORMAÇÕES
         ttk.Label(
             frame_top,
-            text="Disparo Automático Via WhatsApp 'Businsess' a cada 2 MINUTOS!",
+            text="Disparo Automático Via WhatsApp 'Business' a cada 2 MINUTOS!",
             font=("TkDefaultFont", 10, "bold")
         ).pack(side='left', padx=(5, 2))
+
         ttk.Label(
             frame_top,
             text="Usar 1 CHIP (NUMERO) especifico,\nsomente PARA ENVIO dessas Mensagens.",
             foreground="green",
-            font=("TkDefaultFont", 10, "bold")
+            font=("TkDefaultFont", 8, "bold")
         ).pack(padx=5, pady=2)
 
         ttk.Label(
             frame_top,
-            text="Como não estamos usando a API do WhatsApp...\nSeu número pode ser BLOQUEADO!",
+            text="Como não estamos usando a API Oficial do WhatsApp...\nSeu número pode ser BLOQUEADO!",
             foreground="red",
             font=("TkDefaultFont", 10, "bold")
         ).pack(padx=5, pady=2)
         
+        # ESPACAMENTO ACHO ENTRE A GRID ABAIXO
         frame_middle = ttk.Frame(root, padding=10)
         frame_middle.pack(fill='x')
 
-        tk.Label(frame_middle, text="Selecione o Tipo de Escrita da Mensagem:", font=("TkDefaultFont", 10, "bold")).pack(side='left')
+        # FILTROS A SEREM UTILIZADOS
+        tk.Label(frame_middle, text="Selecione o MODELO de Escrita da Mensagem:", font=("TkDefaultFont", 10, "bold")).pack(side='left')
         self.combo_msg_type = ttk.Combobox(frame_middle, state='readonly', width=50)
         self.combo_msg_type.pack(side='left', padx=5)
 
@@ -137,7 +150,7 @@ class WhatsAppSenderApp:
 
         DIAS = [f"{i:02d}" for i in range(1, 32)]  # Dias de "01" a "31"
 
-# Filtro de Mês
+        # Filtro de Mês
         self.label_mes = ttk.Label(root, text="MÊS do ANIVERSÁRIO:")
         self.label_mes.pack()
 
@@ -145,25 +158,27 @@ class WhatsAppSenderApp:
         self.combo_mes.pack()
         self.combo_mes.set("Selecione") 
 
-# Filtro de Dia
+        # Filtro de Dia
         self.label_dia = ttk.Label(root, text="DIA do ANIVERSÁRIO:")
         self.label_dia.pack()
 
+        # Aparecer a opção TODOS Dias Na Grid de filtro
         self.combo_dia = ttk.Combobox(root, values=["Todos os DIAS"] + DIAS)
         self.combo_dia.pack()
         self.combo_dia.current(0)  # "Todos"
 
-
-        ttk.Label(frame_middle, text="Categoria:").pack(side='left', padx=(20, 5))
+        # FILTRO CATEGORIA/GRUPO
+        ttk.Label(frame_middle, text="Tipo:").pack(side='left', padx=(20, 5))
         self.combo_group = ttk.Combobox(frame_middle, state='readonly', width=20)
         self.combo_group.pack(side='left', padx=5)
 
         frame_edit = ttk.Frame(root, padding=20)
         frame_edit.pack(fill='x')
 
+        # GRID AONDE CARREGA O MODELO DE MENSAGEM A SER DISPARADA
         tk.Label(
             frame_edit,
-            text="Modelo da Mensagem a ser Enviada: PODE EDITAR ANTES DE CARREGAR OS CLIENTES",
+            text="Modelo da Mensagem a ser Enviada: Pode EDITAR antes DE CARREGAR para a GRID de Disparo",
             font=("Arial", 12, "bold"),
             anchor='w'
         ).pack(fill='x', padx=5, pady=(0, 5))
@@ -173,7 +188,16 @@ class WhatsAppSenderApp:
 
         frame_bottom = ttk.Frame(root, padding=10)
         frame_bottom.pack(fill='both', expand=True)
+        
+        # TÍTULO DA GRID
+        tk.Label(
+            frame_bottom,
+            text="GRID de DISPARO = 'Mensagens Prontas para Enviar'",
+            font=("Arial", 16, "bold"),
+            anchor='w'
+        ).pack(fill='x', padx=5, pady=(0, 5))
 
+        # GRID CARREGADA COM OS CONTATOS PARA DISPARAR AS MENSAGENS JA PRONTAS
         self.tree = ttk.Treeview(
             frame_bottom,
             columns=('Telefone', 'Mensagem'),
@@ -194,6 +218,7 @@ class WhatsAppSenderApp:
         frame_actions = ttk.Frame(root, padding=10)
         frame_actions.pack(fill='x')
 
+        ## TODOS OS BOTOES DO APLICATIVO
         tk.Button(
             frame_actions,
             text="EDITAR",
@@ -214,7 +239,7 @@ class WhatsAppSenderApp:
 
         tk.Button(
             frame_actions,
-            text="LIMPAR Mensagens",
+            text="APAGAR TODAS Mensagens",
             command=self.cancel_operation,
             bg="#ffc107",
             fg="black"
@@ -252,8 +277,17 @@ class WhatsAppSenderApp:
             fg="white"
         ).pack(side='left', padx=5)
 
-        self.label_info = ttk.Label(root, text="Nenhuma Mensagem Carregada.")
-        self.label_info.pack(anchor='w', padx=10)
+        # Criando o FRAME Mensagens de Aviso
+        self.frame_total = tk.Frame(root)
+        self.frame_total.pack(pady=5, anchor="w")  # ou .grid(...), mas não misture com .pack()
+               
+        # Opção da Mensagem
+        self.label_total = tk.Label(self.frame_total, text=" Aguardando... : 0 mensagens", font=("Arial", 10))
+        self.label_total.grid(row=0, column=0, sticky="w")
+        
+
+        #self.label_total.update_idletasks()
+      
 
         self.carregar_dados_do_mysql()
 
@@ -263,69 +297,74 @@ class WhatsAppSenderApp:
             conn = mysql.connector.connect(
                 host='localhost',
                 user='root',
-                password='xxxxxxxx',
-                database='xxxxxxxx'
+                password='mysql147',
+                database='sistema'
             )
             cursor = conn.cursor(dictionary=True)
-            cursor.execute("SELECT contato, nome, telefone1, dtNasc, rgIm, email FROM pessoas")
+            cursor.execute("SELECT contato, nome, telefone1, telefone2, dtNasc, rgIm, email FROM pessoas WHERE tipoPessoa = 1")
             resultados = cursor.fetchall()
             conn.close()
 
-            self.df = pd.DataFrame(resultados)
+        # Criar DataFrame com os dados do banco
+            df = pd.DataFrame(resultados)
+            df1 = df.copy()
+            df1["telefone"] = df1["telefone1"]
+            df2 = df.copy()
+            df2["telefone"] = df2["telefone2"]
 
-            self.df.rename(columns={
-                "nome": "empresa",
-                "telefone1": "telefone",
-                "dtNasc": "dtNasc",
-                "email": "grupo"
-            }, inplace=True)
+            df1 = df1[df1["telefone"].notna() & (df1["telefone"] != "")]
+            df2 = df2[df2["telefone"].notna() & (df2["telefone"] != "")]
 
-        # --- NORMALIZAÇÃO DO CAMPO GRUPO ---
-            self.df['grupo'] = self.df['grupo'].astype(str).str.strip().str.upper()
+            df_final = pd.concat([df1, df2], ignore_index=True)
+            df_final = df_final[["contato", "nome", "telefone", "dtNasc", "email", "rgIm"]]
 
-        # Debug: imprimir valores únicos na coluna grupo com repr para ver espaços invisíveis
-            print("Valores únicos de grupo (com repr para ver espaços):")
-            print([repr(g) for g in sorted(self.df['grupo'].unique())])
+            df_final.rename(columns={"nome": "empresa", "email": "grupo"}, inplace=True)
+            df_final['grupo'] = df_final['grupo'].astype(str).str.strip().str.upper()
 
-            self.label_info.config(text="🔄 Conectado ao banco de dados.")
-            self.update_group_list()
+            self.df = df_final
+            self.update_group_list()  # se tiver implementado
 
         except mysql.connector.Error as e:
             print(f"Erro MySQL: {e}")
 
+    def abrir_calendario(self):
+        top = tk.Toplevel(self.root)
+        top.title("Escolher Data")
+
+        cal = Calendar(top, date_pattern='dd/mm/yyyy')
+        cal.pack(padx=10, pady=10)
+
+        def pegar_data():
+            data = cal.get_date()
+            dia = data.split('/')[0]
+            self.combo_dia.set(str(int(dia)))
+            top.destroy()
+
+        tk.Button(top, text="Selecionar Dia", command=pegar_data).pack(pady=5)
+
     def carregar_e_filtrar_telefone(self):
-        grupo_selecionado = self.combo_group.get().strip().upper()
-        mes_selecionado = self.combo_mes.get().strip()
-        dia_selecionado = self.combo_dia.get()
+        grupo = self.combo_group.get().strip().upper()
+        mes = self.combo_mes.get().strip()
+        dia = self.combo_dia.get()
 
         self.df['dtNasc'] = pd.to_datetime(self.df['dtNasc'], errors='coerce')
-
-    # Começa com registros válidos (com datas)
         self.filtered_df = self.df[self.df['dtNasc'].notna()].copy()
 
-        if grupo_selecionado:
-        # Filtra DataFrame normalizado
-            df_filtrado = self.df[self.df['grupo'] == grupo_selecionado]
-            print(f"Registros encontrados com grupo '{grupo_selecionado}': {len(df_filtrado)}")
-            print(df_filtrado[['grupo', 'telefone', 'empresa']])
-
-            self.filtered_df = df_filtrado.copy()
-
-        elif mes_selecionado:
+        if grupo:
+            self.filtered_df = self.filtered_df[self.filtered_df['grupo'] == grupo]
+        elif mes:
             try:
-                mes_num = int(mes_selecionado.split(" - ")[0]) if " - " in mes_selecionado else int(mes_selecionado)
+                mes_num = int(mes.split(" - ")[0])
                 self.filtered_df = self.filtered_df[self.filtered_df['dtNasc'].dt.month == mes_num]
 
-                if dia_selecionado != "Todos":
-                    self.filtered_df = self.filtered_df[self.filtered_df['dtNasc'].dt.day == int(dia_selecionado)]
-
-                print(f"Filtro por mês {mes_num}, dia {dia_selecionado}: {len(self.filtered_df)} registros encontrados.")
+                if dia != "Todos":
+                    self.filtered_df = self.filtered_df[self.filtered_df['dtNasc'].dt.day == int(dia)]
             except ValueError:
                 messagebox.showwarning("Erro", "Mês selecionado inválido.")
                 self.filtered_df = pd.DataFrame()
-
+                return
         else:
-            messagebox.showwarning("Aviso", "Selecione um grupo ou mês para carregar os contatos.")
+            messagebox.showwarning("Aviso", "Selecione um Grupo ou Mês para carregar os contatos.")
             self.filtered_df = pd.DataFrame()
             return
 
@@ -334,9 +373,8 @@ class WhatsAppSenderApp:
             return
 
         self.load_messages()
-
-    
-
+        self.atualizar_total()
+ 
 # listando grupos na grid de procura
     def update_group_list(self):
         if self.df is not None and 'grupo' in self.df.columns:
@@ -380,7 +418,7 @@ class WhatsAppSenderApp:
         self.tree.delete(*self.tree.get_children())
         count = 0
         ## USAR AS VÁRIAVEIS OI, OLA E OPA
-        cumprimentos = ["Oi", "Olá", "Opa"]
+        cumprimentos = ["Oi", "Olá", "Opa", "Tudo Bem?"]
         indice_cumprimento = 0  # Começa com "Oi"
 
 
@@ -392,7 +430,7 @@ class WhatsAppSenderApp:
             if not telefone:
                 continue
 
-    # Define cumprimento intercalado
+    # Define cumprimento intercalado A A CADA INICIO DE MENSAGEM
             inicio = cumprimentos[indice_cumprimento]
             indice_cumprimento = (indice_cumprimento + 1) % len(cumprimentos)
 
@@ -402,12 +440,8 @@ class WhatsAppSenderApp:
     # Insere na Treeview
             self.tree.insert('', tk.END, values=(telefone, msg))
             count += 1
-
-        self.label_info.config(text=f"Total de mensagens carregadas a DISPARAR: {count}")
-
-    # (demais métodos continuam iguais, sem alterações nesta parte)
-
-
+          
+    # INICIAR ENVIOU OU DISPARO 
     def iniciar_envio_thread(self):
         if self.enviando:
             messagebox.showinfo("Info", "Envio já está em andamento.")
@@ -420,30 +454,48 @@ class WhatsAppSenderApp:
         self.envio_ativo.set()
         threading.Thread(target=self.enviar_mensagens, daemon=True).start()
 
+# FUNÇAO QUE REALMENTE DISPARA AS MENSAGENS NO WAHTS
     def enviar_mensagens(self):
-        # Exemplo simplificado
-        for item in self.tree.get_children():
-            if not self.enviando or not self.envio_ativo.is_set():
-                break
+        items = self.tree.get_children()
+        total = len(items)
 
-            telefone, mensagem = self.tree.item(item, 'values')
+        try:
+            for idx, item in enumerate(items):
+                if not self.enviando or not self.envio_ativo.is_set():
+                    break
 
-            url = f"https://web.whatsapp.com/send?phone={telefone}&text={quote(mensagem)}"
-            webbrowser.open(url)
-            time.sleep(10)  # esperar o whatsapp carregar
+                telefone, mensagem = self.tree.item(item, 'values')
+                url = f"https://web.whatsapp.com/send?phone={telefone}&text={quote(mensagem)}"
+                webbrowser.open_new_tab(url)
+                time.sleep(10)
 
-            # Simular enter para enviar
-            pyautogui.press('enter')
-            time.sleep(3)
-            time.sleep(120)
+                pyautogui.press('enter')
+                time.sleep(3)
 
-            # Remover da treeview após envio
-            self.tree.delete(item)
+                if idx < total - 1:
+                    time.sleep(110)
 
-        self.enviando = False
-        self.label_info.config(text="Envio concluído.")
-        winsound.Beep(1000, 500)  # beep quando terminar
+                self.tree.after(0, lambda i=item: self.tree.delete(i))
+                self.label_total.after(0, self.atualizar_total)
 
+        except Exception as e:
+            print("Erro durante o envio:", e)
+
+# GRANDE FINAL.. COMANDOS PARA MOSTRAR SOM E UMA JANELA DE FINALIZAÇAO
+        finally:
+            self.enviando = False
+            self.envio_ativo.clear()
+    
+    # Executar som de alerta
+            winsound.Beep(1000, 500)  # frequência 1000 Hz por 500 ms
+            winsound.Beep(800, 500)
+    
+    # Exibir popup
+            self.root.after(0, lambda: messagebox.showinfo("Sucesso", "✅ Todas as Mensagens Foram Enviadas com Sucesso!"))
+
+
+
+    # FUNÇÃO DE PAUSAR ENVIOU
     def pausar_envio(self):
         if not self.enviando:
             messagebox.showinfo("Info", "Nenhum envio em andamento.")
@@ -456,19 +508,39 @@ class WhatsAppSenderApp:
             self.label_info.config(text="Envio retomado.")
             threading.Thread(target=self.enviar_mensagens, daemon=True).start()
 
+    #### DELETANDO , EXCLUINDO UMA MENSAGEM    
     def delete_message(self):
         selected_items = self.tree.selection()
         if not selected_items:
-            messagebox.showwarning("Aviso", "Nenhuma mensagem selecionada para excluir.")
+            messagebox.showwarning("Aviso", "Nenhuma Mensagem Selecionada para Excluir.")
             return
+
         for item in selected_items:
             self.tree.delete(item)
-        self.label_info.config(text=f"Mensagens selecionadas excluídas.")
+
+    # Atualiza o total restante
+        self.atualizar_total()
+
+    # Mostra mensagem de sucesso em uma janela pop-up
+        #messagebox.showinfo("Sucesso", "Mensagem  foi Excluida.")
+
+        
+
+    # FUNÇÃO PARA ATUALIZAR A QUANTIDADE DE MENSAGENS A DISPARAR
+    def atualizar_total(self):
+        total_restante = len(self.tree.get_children())
+        
+        self.label_total.config(text=f"Total a Enviar: {total_restante} Mensagens a Disparar")
+        
+       
 
     def cancel_operation(self):
-        self.tree.delete(*self.tree.get_children())
-        self.label_info.config(text="Mensagens limpas.")
+            self.tree.delete(*self.tree.get_children())
+            #self.label_info.config(text="Mensagens limpas.")
+            messagebox.showinfo("Sucesso", "Todas Mensagens Apagadas.")
+            self.atualizar_total()
 
+    # FUNÇAO DE EDITAR UMA MENSAGEM
     def edit_message(self):
         selected_items = self.tree.selection()
         if not selected_items:
@@ -491,7 +563,7 @@ class WhatsAppSenderApp:
         btn_save = tk.Button(edit_window, text="Salvar", command=salvar_edicao)
         btn_save.pack(pady=(0, 10))
 
-
+# FINALIZAÇÃO DO CÓDIGO
 if __name__ == "__main__":
     root = tk.Tk()
     root.withdraw()  # Oculta a janela principal temporariamente
